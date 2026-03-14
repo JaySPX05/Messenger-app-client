@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MyMessenger</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- LOGIN SCREEN -->
+  <div id="login-screen" class="screen">
+    <div class="login-box">
+      <h1>MyMessenger</h1>
+      <p>Enter the password to connect</p>
+      <input
+        type="password"
+        id="password-input"
+        placeholder="Enter password"
+      />
+      <button id="join-btn">Join</button>
+      <p id="login-error" class="error hidden"></p>
+    </div>
+  </div>
+
+  <!-- WAITING SCREEN -->
+  <div id="waiting-screen" class="screen hidden">
+    <div class="waiting-box">
+      <div class="spinner"></div>
+      <h2>Waiting for your friend...</h2>
+      <p>Share the app URL with them</p>
+    </div>
+  </div>
+
+  <!-- MAIN APP SCREEN -->
+  <div id="app-screen" class="screen hidden">
+
+    <!-- Video Area -->
+    <div id="video-area">
+      <video id="remote-video" autoplay playsinline></video>
+      <video id="local-video"  autoplay playsinline muted></video>
+      <div id="no-video-msg">Call not started yet</div>
+    </div>
+
+    <!-- Chat Area -->
+    <div id="chat-area">
+      <div id="messages"></div>
+
+      <div id="chat-input-row">
+        <input
+          type="text"
+          id="chat-input"
+          placeholder="Type a message..."
+        />
+        <button id="send-btn">Send</button>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div id="controls">
+      <button id="call-btn"  class="ctrl-btn green">📹 Call</button>
+      <button id="mute-btn"  class="ctrl-btn grey" disabled>🎤 Mute</button>
+      <button id="video-btn" class="ctrl-btn grey" disabled>📷 Cam</button>
+      <button id="end-btn"   class="ctrl-btn red"  disabled>📵 End</button>
+    </div>
+
+  </div>
+
+  <!-- Socket.io client — loads from your server -->
+  <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>
