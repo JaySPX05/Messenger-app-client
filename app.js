@@ -294,11 +294,21 @@ chatInput.addEventListener('keydown', (e) => {
 
 function sendMessage() {
   const text = chatInput.value.trim();
-  if (!text || !dataChannel || dataChannel.readyState !== 'open') return;
+  if (!text) return;
+
+  if (!dataChannel) {
+    addMessage('system', 'No data channel yet — call must be active to chat');
+    return;
+  }
+
+  if (dataChannel.readyState !== 'open') {
+    addMessage('system', `Channel not ready: ${dataChannel.readyState}`);
+    return;
+  }
+
   dataChannel.send(text);
   addMessage('me', text);
   chatInput.value = '';
-  // Notify friend if their tab is in background
   socket.emit('notify-message');
 }
 

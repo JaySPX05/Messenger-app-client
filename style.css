@@ -256,3 +256,11 @@ body {
 .ctrl-btn.green  { background: #4ecca3; color: #1a1a2e; }
 .ctrl-btn.red    { background: #ff6b6b; color: #fff;    }
 .ctrl-btn.grey   { background: #333;    color: #eee;    }
+
+.message.system {
+  align-self: center;
+  background: transparent;
+  color: #888;
+  font-size: 12px;
+  font-style: italic;
+}
