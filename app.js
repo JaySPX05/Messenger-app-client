@@ -1,10 +1,14 @@
 // ── Config ──────────────────────────────────────────
-const SERVER_URL = 'http://localhost:3000';
+const SERVER_URL = 'https://messenger-app-server-production.up.railway.app';
 
 const ICE_SERVERS = {
   iceServers: [
     { urls: 'stun:stun.l.google.com:19302' },
-    { urls: 'stun:stun1.l.google.com:19302' }
+    {
+      urls: 'turn:openrelay.metered.ca:80',
+      username: 'openrelayproject',
+      credential: 'openrelayproject'
+    }
   ]
 };
 
@@ -79,10 +83,11 @@ joinBtn.addEventListener('click', () => {
     socket.disconnect();
   });
 
-  socket.on('joined', () => {
-    // Successfully joined — wait for friend
-    showScreen(waitingScreen);
-  });
+  socket.on('joined', (data) => {
+  // Set up push notifications using our socket ID
+  setupPushNotifications(data.id);
+  showScreen(waitingScreen);
+});
 
   socket.on('ready', () => {
     // Both people are here — show main app
@@ -278,4 +283,62 @@ function sendMessage() {
   dataChannel.send(text);
   addMessage('me', text);
   chatInput.value = '';
+  // Notify friend if their tab is in background
+  socket.emit('notify-message');
+}
+
+// ── PWA & Push Setup ─────────────────────────────────
+
+// Convert the VAPID public key from base64 to the format
+// the browser needs for push subscriptions
+function urlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64  = (base64String + padding)
+    .replace(/-/g, '+')
+    .replace(/_/g, '/');
+  const rawData = atob(base64);
+  return Uint8Array.from([...rawData].map(c => c.charCodeAt(0)));
+}
+
+async function setupPushNotifications(socketId) {
+  // 1. Check browser supports service workers and push
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+    console.log('Push not supported in this browser');
+    return;
+  }
+
+  try {
+    // 2. Register the service worker
+    const registration = await navigator.serviceWorker.register('/sw.js');
+    console.log('Service Worker registered');
+
+    // 3. Ask user for notification permission
+    const permission = await Notification.requestPermission();
+    if (permission !== 'granted') {
+      console.log('Notification permission denied');
+      return;
+    }
+
+    // 4. Fetch VAPID public key from server
+    const res  = await fetch(`${SERVER_URL}/vapid-public-key`);
+    const { key } = await res.json();
+
+    // 5. Subscribe to push notifications
+    const subscription = await registration.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(key)
+    });
+
+    // 6. Send subscription to your server so it knows how to reach you
+    await fetch(`${SERVER_URL}/subscribe`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ subscription, socketId })
+    });
+
+    console.log('Push notifications set up successfully');
+
+  } catch (err) {
+    console.error('Push setup failed:', err);
+  }
 }
