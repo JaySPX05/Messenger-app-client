@@ -1,5 +1,5 @@
 // ── Config ──────────────────────────────────────────
-const SERVER_URL = 'https://messenger-app-server-production.up.railway.app';
+const SERVER_URL = 'https://messenger-app-server-d51g.onrender.com';
 
 const ICE_SERVERS = {
   iceServers: [
