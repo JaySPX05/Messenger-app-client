@@ -397,3 +397,16 @@ body::before {
 .ctrl-btn.green:hover { background: var(--acid-dim); }
 .ctrl-btn.red { border-color: var(--danger-border); color: var(--danger); }
 .ctrl-btn.red:hover { background: var(--danger-dim); }
+
+.app-body {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  min-height: 0;
+  width: 100%;
+}
+
+#video-area {
+  flex: 1;
+  min-width: 0;
+}
