@@ -8,68 +8,107 @@
   <link rel="manifest" href="/manifest.json" />
 </head>
 <body>
-
+ 
   <!-- LOGIN SCREEN -->
   <div id="login-screen" class="screen">
     <div class="login-box">
-      <h1>MyMessenger</h1>
-      <p>Enter the password to connect</p>
+      <h1>My<span>Msg</span></h1>
+      <p class="login-tagline">END-TO-END ENCRYPTED</p>
       <input
         type="password"
         id="password-input"
-        placeholder="Enter password"
+        placeholder="enter passphrase"
       />
-      <button id="join-btn">Join</button>
+      <button id="join-btn">CONNECT</button>
       <p id="login-error" class="error hidden"></p>
+      <div class="login-enc-note">
+        <div class="login-enc-dot"></div>
+        AES-256 · SRTP · DTLS
+        <div class="login-enc-dot"></div>
+      </div>
     </div>
   </div>
-
+ 
   <!-- WAITING SCREEN -->
   <div id="waiting-screen" class="screen hidden">
     <div class="waiting-box">
       <div class="spinner"></div>
-      <h2>Waiting for your friend...</h2>
-      <p>Share the app URL with them</p>
+      <h2>waiting for peer</h2>
+      <p>SHARE THE URL TO CONNECT</p>
     </div>
   </div>
-
+ 
   <!-- MAIN APP SCREEN -->
   <div id="app-screen" class="screen hidden">
-
+ 
+    <!-- Header -->
+    <div class="app-header">
+      <div class="header-left">
+        <div class="peer-avatar">JY</div>
+        <div>
+          <div class="peer-name">Jay</div>
+          <div class="peer-status">ONLINE · ENCRYPTED</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div class="enc-pill">AES-256</div>
+        <div class="header-btns">
+          <div class="hbtn" id="header-mic-btn" title="Toggle mic">&#127908;</div>
+          <div class="hbtn" id="header-vid-btn" title="Toggle video">&#128249;</div>
+        </div>
+      </div>
+    </div>
+ 
     <!-- Video Area -->
     <div id="video-area">
+      <div class="video-grid-overlay"></div>
       <video id="remote-video" autoplay playsinline></video>
-      <video id="local-video"  autoplay playsinline muted></video>
-      <div id="no-video-msg">Call not started yet</div>
+      <video id="local-video" autoplay playsinline muted></video>
+      <div id="no-video-msg">
+        <div class="no-video-avatar">JY</div>
+        <div class="call-timer" id="call-timer">00:00</div>
+        <span>CONNECTING</span>
+      </div>
     </div>
-
+ 
     <!-- Chat Area -->
     <div id="chat-area">
-      <div id="messages"></div>
-
+      <div id="messages">
+        <div class="day-sep">TODAY</div>
+      </div>
+ 
+      <div id="typing-row" style="display:none;">
+        <div class="typing-dots">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>
+        <span>typing</span>
+      </div>
+ 
       <div id="chat-input-row">
         <input
           type="text"
           id="chat-input"
-          placeholder="Type a message..."
+          placeholder="type a message..."
         />
-        <button id="send-btn">Send</button>
+        <button id="send-btn">&#8593;</button>
       </div>
     </div>
-
+ 
     <!-- Controls -->
     <div id="controls">
-      <button id="call-btn"  class="ctrl-btn green">📹 Call</button>
-      <button id="mute-btn"  class="ctrl-btn grey" disabled>🎤 Mute</button>
-      <button id="video-btn" class="ctrl-btn grey" disabled>📷 Cam</button>
-      <button id="end-btn"   class="ctrl-btn red"  disabled>📵 End</button>
+      <button id="call-btn"  class="ctrl-btn green">&#128249; call</button>
+      <button id="mute-btn"  class="ctrl-btn" disabled>&#127908; mute</button>
+      <button id="video-btn" class="ctrl-btn" disabled>&#128247; cam</button>
+      <button id="end-btn"   class="ctrl-btn red" disabled>&#128245; end</button>
     </div>
-
+ 
   </div>
-
-  <!-- Socket.io client — loads from your server -->
+ 
   <script src="https://messenger-app-server-d51g.onrender.com/socket.io/socket.io.js"></script>
   <script src="app.js"></script>
-
+ 
 </body>
 </html>
+ 
