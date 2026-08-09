@@ -40,6 +40,7 @@ let isCamOff       = false;
 const loginScreen   = document.getElementById('login-screen');
 const waitingScreen = document.getElementById('waiting-screen');
 const appScreen     = document.getElementById('app-screen');
+const nameInput = document.getElementById('name-input');
 
 const passwordInput = document.getElementById('password-input');
 const joinBtn       = document.getElementById('join-btn');

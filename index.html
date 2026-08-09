@@ -15,6 +15,7 @@
     <div class="login-box">
       <h1>My<span>Msg</span></h1>
       <p class="login-tagline">END-TO-END ENCRYPTED</p>
+      <input type="text" id="name-input" placeholder="your name" maxlength="20" />
       <input type="password" id="password-input" placeholder="enter passphrase" />
       <button id="join-btn">CONNECT</button>
       <p id="login-error" class="error hidden"></p>
@@ -41,14 +42,14 @@
     <!-- Header -->
     <div class="app-header">
       <div class="header-left">
-        <div class="peer-avatar">JY</div>
-        <div>
-          <div class="peer-name">Jay</div>
-          <div class="peer-status">ONLINE · ENCRYPTED</div>
-        </div>
+        <div class="peer-avatar" id="peer-avatar">JY</div>
+      <div>
+        <div class="peer-name" id="peer-name">Jay</div>
+        <div class="peer-status">ONLINE · ENCRYPTED</div>
       </div>
       <div style="display:flex;align-items:center;gap:10px;">
         <div class="enc-pill">AES-256</div>
+        <div class="no-video-avatar" id="no-video-avatar">JY</div>
         <div class="header-btns">
           <div class="hbtn" id="chat-toggle-btn" onclick="toggleChatPanel()">MSG</div>
         </div>
