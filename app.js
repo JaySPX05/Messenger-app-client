@@ -76,8 +76,14 @@ function setCallActive(active) {
   muteBtn.disabled  = !active;
   videoBtn.disabled = !active;
   endBtn.disabled   = !active;
-  if (!active) noVideoMsg.style.display = 'block';
-  else         noVideoMsg.style.display = 'none';
+  const videoArea = document.getElementById('video-area');
+  if (active) {
+    videoArea.classList.add('active');
+    noVideoMsg.style.display = 'none';
+  } else {
+    videoArea.classList.remove('active');
+    noVideoMsg.style.display = 'flex';
+  }
 }
 
 // ── Join ─────────────────────────────────────────────
