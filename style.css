@@ -127,8 +127,9 @@ body {
 #video-area {
   position: relative;
   width: 100%;
-  height: 45vh;
+  height: 60vh;
   background: #000;
+  flex-shrink: 0;
 }
 
 #remote-video {
@@ -166,6 +167,7 @@ body {
   padding: 12px;
   overflow: hidden;
   background: #16213e;
+  min-height: 0;
 }
 
 #messages {
