@@ -72,18 +72,23 @@ function showError(msg) {
 }
 
 function setCallActive(active) {
-  callBtn.disabled  =  active;
-  muteBtn.disabled  = !active;
-  videoBtn.disabled = !active;
-  endBtn.disabled   = !active;
-  const videoArea = document.getElementById('video-area');
-  if (active) {
-    videoArea.classList.add('active');
-    noVideoMsg.style.display = 'none';
-  } else {
-    videoArea.classList.remove('active');
-    noVideoMsg.style.display = 'flex';
+  document.getElementById('call-btn').disabled  =  active;
+  document.getElementById('mute-btn').disabled  = !active;
+  document.getElementById('video-btn').disabled = !active;
+  document.getElementById('end-btn').disabled   = !active;
+  document.getElementById('controls').style.display = active ? 'none' : 'flex';
+  document.getElementById('no-video-msg').style.display = active ? 'none' : 'flex';
+  if (active && !document.getElementById('chat-panel').classList.contains('open')) {
+    toggleChatPanel();
   }
+}
+
+function toggleChatPanel() {
+  const panel = document.getElementById('chat-panel');
+  const btn = document.getElementById('chat-toggle-btn');
+  const isOpen = panel.classList.toggle('open');
+  btn.classList.toggle('on', isOpen);
+  if (isOpen) document.getElementById('chat-input').focus();
 }
 
 // ── Join ─────────────────────────────────────────────

@@ -8,17 +8,13 @@
   <link rel="manifest" href="/manifest.json" />
 </head>
 <body>
- 
+
   <!-- LOGIN SCREEN -->
   <div id="login-screen" class="screen">
     <div class="login-box">
       <h1>My<span>Msg</span></h1>
       <p class="login-tagline">END-TO-END ENCRYPTED</p>
-      <input
-        type="password"
-        id="password-input"
-        placeholder="enter passphrase"
-      />
+      <input type="password" id="password-input" placeholder="enter passphrase" />
       <button id="join-btn">CONNECT</button>
       <p id="login-error" class="error hidden"></p>
       <div class="login-enc-note">
@@ -28,7 +24,7 @@
       </div>
     </div>
   </div>
- 
+
   <!-- WAITING SCREEN -->
   <div id="waiting-screen" class="screen hidden">
     <div class="waiting-box">
@@ -37,10 +33,10 @@
       <p>SHARE THE URL TO CONNECT</p>
     </div>
   </div>
- 
+
   <!-- MAIN APP SCREEN -->
   <div id="app-screen" class="screen hidden">
- 
+
     <!-- Header -->
     <div class="app-header">
       <div class="header-left">
@@ -53,62 +49,73 @@
       <div style="display:flex;align-items:center;gap:10px;">
         <div class="enc-pill">AES-256</div>
         <div class="header-btns">
-          <div class="hbtn" id="header-mic-btn" title="Toggle mic">MIC</div>
-          <div class="hbtn" id="header-vid-btn" title="Toggle video">CAM</div>
+          <div class="hbtn" id="chat-toggle-btn" onclick="toggleChatPanel()">MSG</div>
         </div>
       </div>
     </div>
- 
-    <!-- Video Area -->
-    <div id="video-area">
-      <div class="video-grid-overlay"></div>
-      <video id="remote-video" autoplay playsinline></video>
-      <video id="local-video" autoplay playsinline muted></video>
-      <div id="no-video-msg">
-        <div class="no-video-avatar">JY</div>
-        <div class="call-timer" id="call-timer">00:00</div>
-        <span>CONNECTING</span>
-      </div>
-    </div>
- 
-    <!-- Chat Area -->
-    <div id="chat-area">
-      <div id="messages">
-        <div class="day-sep">TODAY</div>
-      </div>
- 
-      <div id="typing-row" style="display:none;">
-        <div class="typing-dots">
-          <div class="typing-dot"></div>
-          <div class="typing-dot"></div>
-          <div class="typing-dot"></div>
+
+    <!-- Body: video + chat panel -->
+    <div class="app-body">
+
+      <!-- Video Area -->
+      <div id="video-area">
+        <div class="video-grid-overlay"></div>
+        <video id="remote-video" autoplay playsinline></video>
+        <video id="local-video" autoplay playsinline muted></video>
+
+        <div id="no-video-msg">
+          <div class="no-video-avatar">JY</div>
+          <div class="call-timer" id="call-timer">00:00</div>
+          <div class="call-status-label">WAITING FOR CALL</div>
         </div>
-        <span>typing</span>
+
+        <!-- Hover controls overlay -->
+        <div class="video-controls">
+          <button id="call-btn" class="vctr active" onclick="startCall()">&#9654; call</button>
+          <button id="mute-btn" class="vctr" disabled onclick="toggleMute()">&#9651; mute</button>
+          <button id="video-btn" class="vctr" disabled onclick="toggleCam()">&#9634; cam</button>
+          <button id="end-btn" class="vctr danger" disabled onclick="endCall()">&#9632; end</button>
+        </div>
       </div>
- 
-      <div id="chat-input-row">
-        <input
-          type="text"
-          id="chat-input"
-          placeholder="type a message..."
-        />
-        <button id="send-btn">&#8593;</button>
+
+      <!-- Chat Side Panel -->
+      <div id="chat-panel">
+        <div class="chat-panel-header">
+          <div class="chat-panel-title">MESSAGES</div>
+          <div class="chat-close" onclick="toggleChatPanel()">&#10005;</div>
+        </div>
+
+        <div id="messages">
+          <div class="day-sep">TODAY</div>
+        </div>
+
+        <div id="typing-row">
+          <div class="typing-dots">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>
+          <span>typing</span>
+        </div>
+
+        <div id="chat-input-row">
+          <input type="text" id="chat-input" placeholder="type a message..." />
+          <button id="send-btn">&#8593;</button>
+        </div>
       </div>
+
     </div>
- 
-    <!-- Controls -->
+
+    <!-- Bottom controls bar (visible when no call) -->
     <div id="controls">
-  <button id="call-btn"  class="ctrl-btn green">&#9654; call</button>
-  <button id="mute-btn"  class="ctrl-btn" disabled>&#9651; mute</button>
-  <button id="video-btn" class="ctrl-btn" disabled>&#9634; cam</button>
-  <button id="end-btn"   class="ctrl-btn red" disabled>&#9632; end</button>
-</div>
- 
+      <button id="bottom-call-btn" class="ctrl-btn green" onclick="startCall()">&#9654; start call</button>
+      <button id="bottom-chat-btn" class="ctrl-btn" onclick="toggleChatPanel()">&#9633; messages</button>
+    </div>
+
   </div>
- 
-  <script src="https://messenger-app-server-d51g.onrender.com/socket.io/socket.io.js"></script>
+
+  <script src="https://messenger-server.onrender.com/socket.io/socket.io.js"></script>
   <script src="app.js"></script>
- 
+
 </body>
 </html>
- 
