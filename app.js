@@ -102,7 +102,8 @@ joinBtn.addEventListener('click', () => {
 
   socket.on('connect', () => {
     // Once connected, send password to join the room
-    socket.emit('join', password);
+    const myName = nameInput.value.trim() || 'Anonymous';
+    socket.emit('join', { password, name: myName });
   });
 
   socket.on('error', (msg) => {
@@ -111,15 +112,24 @@ joinBtn.addEventListener('click', () => {
   });
 
   socket.on('joined', (data) => {
-  // Set up push notifications using our socket ID
   setupPushNotifications(data.id);
+  window.mySocketId = data.id;
   showScreen(waitingScreen);
 });
 
-  socket.on('ready', () => {
-    // Both people are here — show main app
-    showScreen(appScreen);
-  });
+ socket.on('ready', (names) => {
+  showScreen(appScreen);
+  if (names && Array.isArray(names)) {
+    const peer = names.find(n => n.id !== window.mySocketId);
+    if (peer && peer.name) {
+      const initials = peer.name.split(' ')
+        .map(w => w[0]).join('').toUpperCase().slice(0, 2);
+      document.getElementById('peer-name').textContent = peer.name;
+      document.getElementById('peer-avatar').textContent = initials;
+      document.getElementById('no-video-avatar').textContent = initials;
+    }
+  }
+});
 
   socket.on('peer-left', () => {
     addMessage('system', 'Your friend disconnected');
